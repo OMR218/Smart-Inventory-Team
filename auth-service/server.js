@@ -18,8 +18,9 @@ app.get("/health", (req, res) => {
 
 app.use("/", authRoutes);
 
-connectDb()
-  .then(async () => {
+const startServer = async () => {
+  try {
+    await connectDb();
     await ensureDefaultAccount({
       name: process.env.ADMIN_NAME,
       email: process.env.ADMIN_EMAIL,
@@ -29,8 +30,14 @@ connectDb()
     app.listen(port, () => {
       console.log(`Auth service running on port ${port}`);
     });
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error("Failed to connect to database", error);
     process.exit(1);
-  });
+  }
+};
+
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { app, startServer };

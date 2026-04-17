@@ -22,5 +22,23 @@ db.products.insertMany([
 		price: 45.0,
 		quantity: 8,
 		imageUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=300&q=80"
+	},
+	{
+		name: "Barcode Scanner",
+		price: 129.0,
+		quantity: 6,
+		imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=300&q=80"
+	},
+	{
+		name: "Packing Tape",
+		price: 4.5,
+		quantity: 120,
+		imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=300&q=80"
+	},
+	{
+		name: "Safety Gloves",
+		price: 7.75,
+		quantity: 60,
+		imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=300&q=80"
 	}
 ]);

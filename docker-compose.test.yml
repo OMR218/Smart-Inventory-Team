@@ -1,0 +1,22 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: inventory-mongo-test
+    ports:
+      - "27018:27017"
+
+  auth-service-test:
+    build: ./auth-service
+    environment:
+      MONGO_URI: mongodb://mongo:27017/auth_test
+    depends_on:
+      - mongo
+    command: npm test
+
+  product-service-test:
+    build: ./product-service
+    environment:
+      MONGO_URI: mongodb://mongo:27017/product_test
+    depends_on:
+      - mongo
+    command: npm test

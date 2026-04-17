@@ -1,6 +1,6 @@
 # Microservices Inventory Management System
 
-Simple DevOps-friendly microservices project with Node.js (Express), React, MongoDB, and an API Gateway.
+Simple DevOps-friendly microservices project with Node.js (Express), React, MongoDB, and an API Gateway. Built as a DevOps team inventory workspace.
 
 ## Services
 
@@ -18,6 +18,12 @@ docker compose up --build
 Then open:
 - Frontend: http://localhost:3000
 - API Gateway: http://localhost:8081
+
+## Run Tests (Docker)
+
+```bash
+docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
+```
 
 ## API Endpoints
 
