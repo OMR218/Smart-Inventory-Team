@@ -44,6 +44,7 @@ Docker Compose reads values from `.env` in the project root.
 - ADMIN_NAME
 - ADMIN_EMAIL
 - ADMIN_PASSWORD
+- VITE_API_URL
 
 ## Notes
 

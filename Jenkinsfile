@@ -19,7 +19,18 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'docker compose -f docker-compose.test.yml up --build --abort-on-container-exit'
+                sh '''
+                    docker compose -f docker-compose.test.yml up --build --abort-on-container-exit || \
+                    docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
+                '''
+            }
+            post {
+                always {
+                    sh '''
+                        docker compose -f docker-compose.test.yml down --remove-orphans || \
+                        docker-compose -f docker-compose.test.yml down --remove-orphans
+                    '''
+                }
             }
         }
         stage ('DockerHub Login') {
