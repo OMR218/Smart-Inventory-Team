@@ -1,8 +1,6 @@
 services:
   mongo:
     image: mongo:7
-    ports:
-      - "27018:27017"
 
   auth-service-test:
     build: ./auth-service
@@ -10,7 +8,7 @@ services:
       MONGO_URI: mongodb://mongo:27017/auth_test
     depends_on:
       - mongo
-    command: npm test
+    command: sh -c "npm install; npm test"
 
   product-service-test:
     build: ./product-service
@@ -18,4 +16,4 @@ services:
       MONGO_URI: mongodb://mongo:27017/product_test
     depends_on:
       - mongo
-    command: npm test
+    command: sh -c "npm install; npm test"
