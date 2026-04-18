@@ -43,15 +43,15 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 sh '''
-                    docker tag api-gateway omr21/api-gateway:latest
-                    docker tag auth-service omr21/auth-service:latest
-                    docker tag product-service omr21/product-service:latest
-                    docker tag frontend omr21/frontend:latest
+                    docker tag api-gateway mahmoud416/api-gateway:latest
+                    docker tag auth-service mahmoud416/auth-service:latest
+                    docker tag product-service mahmoud416/product-service:latest
+                    docker tag frontend mahmoud416/frontend:latest
 
-                    docker push omr21/api-gateway:latest
-                    docker push omr21/auth-service:latest
-                    docker push omr21/product-service:latest
-                    docker push omr21/frontend:latest
+                    docker push mahmoud416/api-gateway:latest
+                    docker push mahmoud416/auth-service:latest
+                    docker push mahmoud416/product-service:latest
+                    docker push mahmoud416/frontend:latest
                 '''
             }
         }
