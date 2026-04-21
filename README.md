@@ -1,6 +1,6 @@
 # Microservices Inventory Management System
 
-Simple DevOps-friendly microservices project with Node.js (Express), React, MongoDB, and an API Gateway. Built as a DevOps team inventory workspace.
+Simple DevOps-friendly microservices project with Node.js (Express), React, PostgreSQL, and an API Gateway.
 
 ## Services
 
@@ -19,12 +19,6 @@ Then open:
 - Frontend: http://localhost:3000
 - API Gateway: http://localhost:8081
 
-## Run Tests (Docker)
-
-```bash
-docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
-```
-
 ## API Endpoints
 
 - Auth Service (via gateway):
@@ -40,16 +34,9 @@ docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
 Docker Compose reads values from `.env` in the project root.
 
-- MONGO_URI (used for local, non-Docker runs)
-- ADMIN_NAME
-- ADMIN_EMAIL
-- ADMIN_PASSWORD
-- VITE_API_URL
+- POSTGRES_USER
+- POSTGRES_PASSWORD
 
 ## Notes
 
 This demo stores passwords in plain text for simplicity. Do not use this approach in production.
-
-## Default Account
-
-When `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` are set, the auth service creates a default account on startup if it doesn't already exist.
