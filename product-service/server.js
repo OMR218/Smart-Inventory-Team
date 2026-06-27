@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const productRoutes = require("./routes/productRoutes");
 const { connectDb } = require("./db");
+const { initRedis, initRabbit } = require("./utils/services");
 
 const app = express();
 const port = process.env.PORT || 4002;
@@ -20,6 +21,8 @@ app.use("/", productRoutes);
 const startServer = async () => {
   try {
     await connectDb();
+    await initRedis();
+    await initRabbit();
     app.listen(port, () => {
       console.log(`Product service running on port ${port}`);
     });

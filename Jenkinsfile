@@ -13,6 +13,9 @@ pipeline {
                     docker build -t api-gateway ./api-gateway
                     docker build -t auth-service ./auth-service
                     docker build -t product-service ./product-service
+                    docker build -t order-service ./order-service
+                    docker build -t supplier-service ./supplier-service
+                    docker build -t notification-service ./notification-service
                     docker build -t frontend ./frontend
                 '''
             }
@@ -46,11 +49,17 @@ pipeline {
                     docker tag api-gateway mahmoud416/api-gateway:latest
                     docker tag auth-service mahmoud416/auth-service:latest
                     docker tag product-service mahmoud416/product-service:latest
+                    docker tag order-service mahmoud416/order-service:latest
+                    docker tag supplier-service mahmoud416/supplier-service:latest
+                    docker tag notification-service mahmoud416/notification-service:latest
                     docker tag frontend mahmoud416/frontend:latest
 
                     docker push mahmoud416/api-gateway:latest
                     docker push mahmoud416/auth-service:latest
                     docker push mahmoud416/product-service:latest
+                    docker push mahmoud416/order-service:latest
+                    docker push mahmoud416/supplier-service:latest
+                    docker push mahmoud416/notification-service:latest
                     docker push mahmoud416/frontend:latest
                 '''
             }

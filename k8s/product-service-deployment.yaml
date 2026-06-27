@@ -22,3 +22,9 @@ spec:
               value: "4002"
             - name: MONGO_URI
               value: mongodb://mongo:27017/product_db
+            - name: JWT_SECRET
+              value: "smart-inventory-secret"
+            - name: REDIS_URL
+              value: "redis://redis:6379"
+            - name: RABBITMQ_URL
+              value: "amqp://rabbitmq:5672"

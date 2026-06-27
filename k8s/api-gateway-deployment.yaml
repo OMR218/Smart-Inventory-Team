@@ -24,3 +24,11 @@ spec:
               value: http://auth-service:4001
             - name: PRODUCT_SERVICE_URL
               value: http://product-service:4002
+            - name: ORDER_SERVICE_URL
+              value: http://order-service:4003
+            - name: SUPPLIER_SERVICE_URL
+              value: http://supplier-service:4004
+            - name: NOTIFICATION_SERVICE_URL
+              value: http://notification-service:4005
+            - name: JWT_SECRET
+              value: "smart-inventory-secret"
