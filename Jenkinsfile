@@ -45,23 +45,26 @@ pipeline {
         }
         stage('Push to DockerHub') {
             steps {
-                sh '''
-                    docker tag api-gateway mahmoud416/api-gateway:latest
-                    docker tag auth-service mahmoud416/auth-service:latest
-                    docker tag product-service mahmoud416/product-service:latest
-                    docker tag order-service mahmoud416/order-service:latest
-                    docker tag supplier-service mahmoud416/supplier-service:latest
-                    docker tag notification-service mahmoud416/notification-service:latest
-                    docker tag frontend mahmoud416/frontend:latest
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                    sh '''
+                        docker tag api-gateway $DOCKERHUB_USERNAME/api-gateway:latest
+                        docker tag auth-service $DOCKERHUB_USERNAME/auth-service:latest
+                        docker tag product-service $DOCKERHUB_USERNAME/product-service:latest
+                        docker tag order-service $DOCKERHUB_USERNAME/order-service:latest
+                        docker tag supplier-service $DOCKERHUB_USERNAME/supplier-service:latest
+                        docker tag notification-service $DOCKERHUB_USERNAME/notification-service:latest
+                        docker tag frontend $DOCKERHUB_USERNAME/frontend:latest
 
-                    docker push mahmoud416/api-gateway:latest
-                    docker push mahmoud416/auth-service:latest
-                    docker push mahmoud416/product-service:latest
-                    docker push mahmoud416/order-service:latest
-                    docker push mahmoud416/supplier-service:latest
-                    docker push mahmoud416/notification-service:latest
-                    docker push mahmoud416/frontend:latest
-                '''
+                        docker push $DOCKERHUB_USERNAME/api-gateway:latest
+                        docker push $DOCKERHUB_USERNAME/auth-service:latest
+                        docker push $DOCKERHUB_USERNAME/product-service:latest
+                        docker push $DOCKERHUB_USERNAME/order-service:latest
+                        docker push $DOCKERHUB_USERNAME/supplier-service:latest
+                        docker push $DOCKERHUB_USERNAME/notification-service:latest
+                        docker push $DOCKERHUB_USERNAME/frontend:latest
+                    '''
+                }
+                
             }
         }
     }
