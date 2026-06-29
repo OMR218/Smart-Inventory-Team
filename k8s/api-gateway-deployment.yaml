@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: mahmoud416/api-gateway:latest
+          image: omr21/api-gateway:latest
           ports:
             - containerPort: 8080
           env:
@@ -31,4 +31,8 @@ spec:
             - name: NOTIFICATION_SERVICE_URL
               value: http://notification-service:4005
             - name: JWT_SECRET
-              value: "smart-inventory-secret"
+              valueFrom:
+                secretKeyRef:
+                  name: smart-inventory-secrets
+                  key: JWT_SECRET
+

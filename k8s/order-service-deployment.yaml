@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: mahmoud416/order-service:latest
+          image: omr21/order-service:latest
           ports:
             - containerPort: 4003
           env:

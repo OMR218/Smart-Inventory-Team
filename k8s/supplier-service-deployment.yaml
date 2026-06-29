@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: supplier-service
-          image: mahmoud416/supplier-service:latest
+          image: omr21/supplier-service:latest
           ports:
             - containerPort: 4004
           env:

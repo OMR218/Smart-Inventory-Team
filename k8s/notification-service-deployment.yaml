@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: notification-service
-          image: mahmoud416/notification-service:latest
+          image: omr21/notification-service:latest
           ports:
             - containerPort: 4005
           env:

@@ -1,0 +1,34 @@
+# Terraform
+Terraform/.terraform/
+Terraform/.terraform.lock.hcl
+Terraform/terraform.tfstate
+Terraform/terraform.tfstate.*
+Terraform/crash.log
+Terraform/*.tfvars
+Terraform/*.tfvars.json
+
+# Environment files
+.env
+.env.*
+secret.env
+
+# Node.js
+**/node_modules/
+npm-debug.log*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Temporary files
+*.tmp
+*.swp
