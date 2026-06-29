@@ -144,9 +144,14 @@ pipeline {
         }
         stage('Wait for EKS Nodes') {
             steps {
-                sh '''
-                    kubectl wait --for=condition=Ready nodes --all --timeout=10m
-                '''
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credentials'
+                ]]) {
+                    sh '''
+                        kubectl wait --for=condition=Ready nodes --all --timeout=10m
+                    '''
+                }
             }
         }
         stage('Install NGINX Ingress Controller') {
