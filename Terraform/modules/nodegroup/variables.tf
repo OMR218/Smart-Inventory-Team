@@ -10,6 +10,10 @@ variable "cluster_endpoint" {
   type = string
 }
 
+variable "cluster_security_group_id" {
+  type = string
+}
+
 variable "subnet_ids" {
   type = list(string)
 }

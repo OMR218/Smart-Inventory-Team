@@ -32,7 +32,10 @@ resource "aws_iam_role_policy_attachment" "ecr" {
 resource "aws_launch_template" "workers" {
   name_prefix = "${var.node_group_name}-"
 
-  vpc_security_group_ids = [var.node_security_group_id]
+  vpc_security_group_ids = [
+    var.node_security_group_id,
+    var.cluster_security_group_id,
+  ]
 }
 
 resource "aws_eks_node_group" "workers" {

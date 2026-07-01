@@ -25,7 +25,7 @@ module "eks" {
 
   # Enable IRSA for EBS CSI driver service account
   create_sa_iam_role                = false
-  create_ebs_csi_addon               = false
+  create_ebs_csi_addon              = false
   create_kubernetes_service_account = false
   sa_name                           = "ebs-csi-controller-sa"
   sa_namespace                      = "kube-system"
@@ -35,12 +35,13 @@ module "eks" {
 module "nodegroup" {
   source = "./modules/nodegroup"
 
-  cluster_name           = module.eks.cluster_name
-  node_group_name        = "workers"
-  cluster_endpoint       = module.eks.cluster_endpoint
-  subnet_ids             = module.vpc.private_subnets
-  instance_types         = ["m7i-flex.large"]
-  node_security_group_id = module.security_groups.node_sg_id
+  cluster_name              = module.eks.cluster_name
+  node_group_name           = "workers"
+  cluster_endpoint          = module.eks.cluster_endpoint
+  cluster_security_group_id = module.eks.cluster_security_group_id
+  subnet_ids                = module.vpc.private_subnets
+  instance_types            = ["m7i-flex.large"]
+  node_security_group_id    = module.security_groups.node_sg_id
 
   desired_size = 2
   min_size     = 1
