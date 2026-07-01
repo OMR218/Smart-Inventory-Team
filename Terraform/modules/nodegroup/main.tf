@@ -62,4 +62,10 @@ resource "aws_eks_node_group" "workers" {
   tags = {
     Name = var.node_group_name
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.worker,
+    aws_iam_role_policy_attachment.cni,
+    aws_iam_role_policy_attachment.ecr,
+  ]
 }

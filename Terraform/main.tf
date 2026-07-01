@@ -24,12 +24,12 @@ module "eks" {
   subnet_ids   = module.vpc.private_subnets
 
   # Enable IRSA for EBS CSI driver service account
-  create_sa_iam_role                = false
-  create_ebs_csi_addon              = false
+  create_sa_iam_role                = true
+  create_ebs_csi_addon              = true
   create_kubernetes_service_account = false
   sa_name                           = "ebs-csi-controller-sa"
   sa_namespace                      = "kube-system"
-  sa_policy_arns                    = []
+  sa_policy_arns                    = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
 }
 
 module "nodegroup" {
