@@ -11,6 +11,11 @@ variable "create_sa_iam_role" {
   default = false
 }
 
+variable "create_ebs_csi_addon" {
+  type    = bool
+  default = true
+}
+
 variable "create_kubernetes_service_account" {
   type    = bool
   default = false

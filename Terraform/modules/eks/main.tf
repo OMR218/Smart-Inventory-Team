@@ -32,6 +32,8 @@ resource "aws_eks_cluster" "this" {
 }
 
 resource "aws_eks_addon" "ebs_csi" {
+  count = var.create_ebs_csi_addon ? 1 : 0
+
   cluster_name                = aws_eks_cluster.this.name
   addon_name                  = "aws-ebs-csi-driver"
   service_account_role_arn    = var.create_sa_iam_role ? aws_iam_role.sa_role[0].arn : null
