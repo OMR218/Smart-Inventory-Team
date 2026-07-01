@@ -13,7 +13,8 @@ module "vpc" {
 module "security_groups" {
   source = "./modules/security-groups"
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id                    = module.vpc.vpc_id
+  cluster_security_group_id = module.eks.cluster_security_group_id
 }
 
 module "eks" {

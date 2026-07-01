@@ -46,6 +46,14 @@ resource "aws_security_group" "node" {
   }
 
   ingress {
+    description     = "Allow EKS control plane traffic"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [var.cluster_security_group_id]
+  }
+
+  ingress {
     description     = "Allow NLB traffic to NodePort services"
     from_port       = 30000
     to_port         = 32767
