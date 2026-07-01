@@ -10,6 +10,12 @@ module "vpc" {
   cluster_name          = "dev-cluster"
 }
 
+module "security_groups" {
+  source = "./modules/security-groups"
+
+  vpc_id = module.vpc.vpc_id
+}
+
 module "eks" {
   source = "./modules/eks"
 
@@ -27,11 +33,12 @@ module "eks" {
 module "nodegroup" {
   source = "./modules/nodegroup"
 
-  cluster_name     = module.eks.cluster_name
-  node_group_name  = "workers"
-  cluster_endpoint = module.eks.cluster_endpoint
-  subnet_ids       = module.vpc.private_subnets
-  instance_types   = ["m7i-flex.large"]
+  cluster_name           = module.eks.cluster_name
+  node_group_name        = "workers"
+  cluster_endpoint       = module.eks.cluster_endpoint
+  subnet_ids             = module.vpc.private_subnets
+  instance_types         = ["m7i-flex.large"]
+  node_security_group_id = module.security_groups.node_sg_id
 
   desired_size = 2
   min_size     = 1
