@@ -1,6 +1,6 @@
-resource "aws_security_group" "alb" {
-  name        = "eks-alb-sg"
-  description = "Security group for the ALB"
+resource "aws_security_group" "nlb" {
+  name        = "eks-nlb-sg"
+  description = "Security group for the NLB"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -28,7 +28,7 @@ resource "aws_security_group" "alb" {
   }
 
   tags = {
-    Name = "eks-alb-sg"
+    Name = "eks-nlb-sg"
   }
 }
 
@@ -40,17 +40,17 @@ resource "aws_security_group" "node" {
   ingress {
     description = "Allow node-to-node communication"
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "-1"
     self        = true
   }
 
   ingress {
-    description     = "Allow ALB traffic to NodePort services"
+    description     = "Allow NLB traffic to NodePort services"
     from_port       = 30000
     to_port         = 32767
     protocol        = "tcp"
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [aws_security_group.nlb.id]
   }
 
   egress {

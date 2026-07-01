@@ -38,6 +38,12 @@ resource "aws_eks_addon" "ebs_csi" {
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
 
+  timeouts {
+    create = "30m"
+    update = "30m"
+    delete = "30m"
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.sa_policy_attachments,
     aws_eks_cluster.this,
