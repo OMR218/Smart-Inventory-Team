@@ -14,9 +14,22 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: mahmoud416/api-gateway:latest
+          image: marwan774/api-gateway:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
           env:
             - name: PORT
               value: "8080"

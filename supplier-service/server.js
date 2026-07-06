@@ -2,10 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const supplierRoutes = require("./routes/supplierRoutes");
 const { connectDb } = require("./db");
 const { seedDefaultSuppliers } = require("./models/supplierModel");
 const { initRabbit } = require("./utils/services");
+
 
 const app = express();
 const port = process.env.PORT || 4004;
@@ -13,9 +15,15 @@ const port = process.env.PORT || 4004;
 app.use(cors());
 app.use(express.json());
 
+
 app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  const mongoOk = mongoose.connection.readyState === 1;
+  res.status(mongoOk ? 200 : 503).json({
+    status: mongoOk ? "ok" : "degraded",
+    mongo: mongoOk ? "connected" : "disconnected"
+  });
 });
+
 
 app.use("/", supplierRoutes);
 

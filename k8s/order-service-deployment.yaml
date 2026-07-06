@@ -14,9 +14,22 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: mahmoud416/order-service:latest
+          image: marwan774/order-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4003
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4003
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4003
+            initialDelaySeconds: 10
+            periodSeconds: 5
           env:
             - name: PORT
               value: "4003"
@@ -35,6 +48,7 @@ spec:
   selector:
     app: order-service
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 4003
       targetPort: 4003

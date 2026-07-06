@@ -5,6 +5,7 @@ const {
   deleteProductById
 } = require("../models/productModel");
 const { getRedisClient, publishEvent } = require("../utils/services");
+const { refreshStockGauge } = require("../utils/metrics");
 
 const CACHE_KEY = "products_list";
 
@@ -61,6 +62,9 @@ const createProduct = async (req, res) => {
     await clearCache();
     await checkAndPublishLowStock(product);
 
+    // Refresh Prometheus gauge with full product list
+    try { refreshStockGauge(await listProducts()); } catch (_) {}
+
     return res.status(201).json({ product });
   } catch (error) {
     console.error("Create product failed", error);
@@ -92,6 +96,8 @@ const getProducts = async (req, res) => {
         console.error("Redis set failed:", error.message);
       }
     }
+    // Refresh gauge from DB (cache may be stale for Prometheus)
+    try { refreshStockGauge(products); } catch (_) {}
     return res.json({ products });
   } catch (error) {
     return res.status(500).json({ message: "failed to fetch products" });
@@ -133,6 +139,9 @@ const updateProduct = async (req, res) => {
     await clearCache();
     await checkAndPublishLowStock(product);
 
+    // Refresh Prometheus gauge with full product list
+    try { refreshStockGauge(await listProducts()); } catch (_) {}
+
     return res.json({ product });
   } catch (error) {
     console.error("Update product failed", error);
@@ -151,6 +160,9 @@ const deleteProduct = async (req, res) => {
     }
 
     await clearCache();
+
+    // Refresh Prometheus gauge with full product list after deletion
+    try { refreshStockGauge(await listProducts()); } catch (_) {}
 
     return res.json({ product });
   } catch (error) {

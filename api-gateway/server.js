@@ -5,6 +5,7 @@ const cors = require("cors");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const jwt = require("jsonwebtoken");
 
+
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -18,10 +19,12 @@ const notificationTarget = process.env.NOTIFICATION_SERVICE_URL || "http://notif
 
 app.use(cors());
 
-// Public health check
+// Public health and metrics endpoints
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
+
+
 
 // Authentication middleware for proxy requests
 const authenticateToken = (req, res, next) => {

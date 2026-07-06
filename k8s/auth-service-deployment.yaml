@@ -14,9 +14,22 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: mahmoud416/auth-service:latest
+          image: marwan774/auth-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4001
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4001
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4001
+            initialDelaySeconds: 10
+            periodSeconds: 5
           env:
             - name: PORT
               value: "4001"

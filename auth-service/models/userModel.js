@@ -50,7 +50,8 @@ const ensureDefaultAccount = async ({ name, email, password }) => {
     return null;
   }
 
-  const user = await Account.create({ name, email, password, role: "Admin" });
+  const user = new Account({ name, email, password, role: "Admin" });
+  await user.save();
   return { id: user.id, name: user.name, email: user.email, role: user.role };
 };
 

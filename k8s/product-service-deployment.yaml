@@ -14,9 +14,22 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: mahmoud416/product-service:latest
+          image: marwan774/product-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4002
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4002
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4002
+            initialDelaySeconds: 10
+            periodSeconds: 5
           env:
             - name: PORT
               value: "4002"

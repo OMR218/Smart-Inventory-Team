@@ -14,9 +14,22 @@ spec:
     spec:
       containers:
         - name: notification-service
-          image: mahmoud416/notification-service:latest
+          image: marwan774/notification-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4005
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4005
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4005
+            initialDelaySeconds: 10
+            periodSeconds: 5
           env:
             - name: PORT
               value: "4005"
@@ -33,6 +46,7 @@ spec:
   selector:
     app: notification-service
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 4005
       targetPort: 4005
