@@ -8,6 +8,23 @@
 # ── Grafana ───────────────────────────────────────────────────────────────────
 grafana:
   adminPassword: changeme
+  # Configure Grafana to serve from a subpath (/grafana)
+  grafana.ini:
+    server:
+      root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
+      serve_from_sub_path: true
+
+  # Configure Grafana's Ingress resource
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    hosts:
+      - ""
+    path: /grafana/?(.*)
+    pathType: ImplementationSpecific
+
   # Load our custom inventory dashboard ConfigMap from any namespace
   sidecar:
     dashboards:

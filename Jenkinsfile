@@ -177,6 +177,19 @@ pipeline {
                 }
             }
         }
+        stage('Install Monitoring Stack') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credentials'
+                ]]) {
+                    sh '''
+                        chmod +x helm/monitoring/install.sh
+                        ./helm/monitoring/install.sh
+                    '''
+                }
+            }
+        }
         stage('Deployment to EKS') {
             steps {
                 withCredentials([[
