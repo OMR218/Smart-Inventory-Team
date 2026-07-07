@@ -14,22 +14,9 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: marwan774/api-gateway:latest
-          imagePullPolicy: IfNotPresent
+          image: omr21/api-gateway:latest
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 5
           env:
             - name: PORT
               value: "8080"
@@ -44,4 +31,8 @@ spec:
             - name: NOTIFICATION_SERVICE_URL
               value: http://notification-service:4005
             - name: JWT_SECRET
-              value: "smart-inventory-secret"
+              valueFrom:
+                secretKeyRef:
+                  name: smart-inventory-secrets
+                  key: JWT_SECRET
+

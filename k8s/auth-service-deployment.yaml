@@ -14,32 +14,32 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: marwan774/auth-service:latest
-          imagePullPolicy: IfNotPresent
+          image: omr21/auth-service:latest
           ports:
             - containerPort: 4001
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4001
-            initialDelaySeconds: 20
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4001
-            initialDelaySeconds: 10
-            periodSeconds: 5
           env:
             - name: PORT
               value: "4001"
             - name: MONGO_URI
               value: mongodb://mongo:27017/auth_db
             - name: ADMIN_NAME
-              value: Admin User
+              valueFrom:
+                secretKeyRef:
+                  name: smart-inventory-secrets
+                  key: ADMIN_NAME
             - name: ADMIN_EMAIL
-              value: admin@example.com
+              valueFrom:
+                secretKeyRef:
+                  name: smart-inventory-secrets
+                  key: ADMIN_EMAIL
             - name: ADMIN_PASSWORD
-              value: admin123
+              valueFrom:
+                secretKeyRef:
+                  name: smart-inventory-secrets
+                  key: ADMIN_PASSWORD
             - name: JWT_SECRET
-              value: "smart-inventory-secret"
+              valueFrom:
+                secretKeyRef:
+                  name: smart-inventory-secrets
+                  key: JWT_SECRET
+

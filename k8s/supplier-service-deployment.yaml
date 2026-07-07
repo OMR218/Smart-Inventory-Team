@@ -14,22 +14,9 @@ spec:
     spec:
       containers:
         - name: supplier-service
-          image: marwan774/supplier-service:latest
-          imagePullPolicy: IfNotPresent
+          image: omr21/supplier-service:latest
           ports:
             - containerPort: 4004
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4004
-            initialDelaySeconds: 20
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4004
-            initialDelaySeconds: 10
-            periodSeconds: 5
           env:
             - name: PORT
               value: "4004"
@@ -48,7 +35,6 @@ spec:
   selector:
     app: supplier-service
   ports:
-    - name: http
-      protocol: TCP
+    - protocol: TCP
       port: 4004
       targetPort: 4004
