@@ -17,12 +17,12 @@ spec:
               namespace="default",
               deployment=~"(api-gateway|auth-service|product-service|order-service|supplier-service|notification-service|frontend).*"
             } == 0
-          for: 1m
+          for: 15s
           labels:
             severity: critical
           annotations:
             summary: "🚨 Service DOWN: {{ $labels.deployment }}"
-            description: "Deployment {{ $labels.deployment }} has 0 available replicas for more than 1 minute."
+            description: "Deployment {{ $labels.deployment }} has 0 available replicas for more than 15 seconds."
 
         # ── 2. MongoDB has 0 available replicas ─────────────────────────────
         - alert: MongoDBDown
@@ -31,7 +31,7 @@ spec:
               namespace="default",
               deployment=~"mongo.*"
             } == 0
-          for: 1m
+          for: 15s
           labels:
             severity: critical
           annotations:
@@ -44,7 +44,7 @@ spec:
             increase(kube_pod_container_status_restarts_total{
               namespace="default"
             }[15m]) > 3
-          for: 5m
+          for: 15s
           labels:
             severity: critical
           annotations:
@@ -55,7 +55,7 @@ spec:
         - alert: ProductLowStock
           expr: |
             inventory_product_quantity > 0 and inventory_product_quantity <= 10
-          for: 0m
+          for: 15s
           labels:
             severity: warning
           annotations:
@@ -66,9 +66,10 @@ spec:
         - alert: ProductOutOfStock
           expr: |
             inventory_product_quantity == 0
-          for: 0m
+          for: 15s
           labels:
             severity: critical
           annotations:
             summary: "🚨 OUT OF STOCK: {{ $labels.product_name }}"
             description: "Product '{{ $labels.product_name }}' is completely out of stock (0 units). Immediate action required."
+
