@@ -1,223 +1,154 @@
-# Microservices Inventory Management System
+# Smart Inventory & Team Monitoring System
 
-Simple DevOps-friendly microservices project with Node.js (Express), React, MongoDB, and an API Gateway. Built as a DevOps team inventory workspace.
+A cloud-native, microservices-based inventory management and monitoring platform designed to demonstrate modern DevOps best practices, containerization, Infrastructure as Code (IaC), CI/CD, and distributed observability.
 
-## Team Members
+---
 
-- Mahmoud Mohamed Sami Mohamed
-- Omar Mohamed Hussain
-- Ahmed Abdelrazek Moussa Hantera
-- Habiba Mohamed
-- Ahmed Abdelatty Omran Ali
-- Essam Elsayed Mahmoud Zayed
-- Marwan mohy mahmoud
+## 👥 Team Members
 
+*   **Mahmoud Mohamed Sami Mohamed**
+*   **Omar Mohamed Hussain**
+*   **Ahmed Abdelrazek Moussa Hantera**
+*   **Habiba Mohamed**
+*   **Ahmed Abdelatty Omran Ali**
+*   **Essam Elsayed Mahmoud Zayed**
+*   **Marwan mohy mahmoud**
 
+---
 
-## Project Overview
+## 🚀 Key Features
 
-This is a modern microservices-based inventory management system designed to demonstrate DevOps best practices, containerization, and distributed system architecture.
+*   **Microservices Architecture:** Decoupled, specialized services communicating via API Gateway and messaging protocols.
+*   **Event-Driven & Caching:** RabbitMQ for asynchronous event-driven notifications; Redis for fast database caching.
+*   **Infrastructure as Code (IaC):** Provisioned VPC, Security Groups, and EKS Cluster on AWS using Terraform.
+*   **Orchestration & Deployments:** Managed using Kubernetes (K8s) manifests (Ingress, Services, Deployments, PVCs).
+*   **Automated CI/CD:** Fully automated Jenkins pipeline handling build, unit/integration testing, Docker Hub registry uploads, and EKS deployments.
+*   **Full-Stack Monitoring:** Observability with Prometheus & Grafana (Helm Kube-Prometheus-Stack) including custom inventory dashboard rules.
 
-## Project Goals
+---
 
-- Build a scalable microservices architecture
-- Implement containerized deployment using Docker & Docker Compose
-- Demonstrate API gateway pattern for routing
-- Showcase authentication and authorization flows
-- Create a responsive web interface for inventory management
-- Establish DevOps-friendly practices and deployment pipelines
+## 🛠️ Tech Stack
 
-## Key Features
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Frontend** | React | Modern UI dashboard |
+| **API Gateway** | Node.js + Express | Centralized request routing & validation |
+| **Backend Services** | Node.js + Express | Auth, Product, Order, Supplier, and Notification services |
+| **Databases & Cache** | MongoDB + Redis | Main document store and high-performance cache |
+| **Message Broker** | RabbitMQ | Service-to-service asynchronous notification events |
+| **Infrastructure (IaC)** | Terraform | Automated AWS resources (VPC, EKS, NodeGroups) |
+| **Container & Orchestration** | Docker + Kubernetes | Containerization, pods management, and Ingress routing |
+| **CI/CD** | Jenkins | Multi-stage pipeline automation |
+| **Monitoring / Helm** | Prometheus + Grafana | System observability and telemetry metrics |
 
-- **User Authentication**: Secure registration and login functionality
-- **Product Management**: Full CRUD operations for inventory items
-- **API Gateway**: Centralized routing and request management
-- **Responsive UI**: Modern React-based frontend
-- **Database**: MongoDB for flexible data storage
-- **Containerized**: Docker support for easy deployment
+---
 
-## Tech Stack
-
-| Component | Technology |
-|-----------|-----------|
-| Backend | Node.js + Express.js |
-| Frontend | React |
-| Database | MongoDB |
-| Container | Docker & Docker Compose |
-| API Gateway | Custom Express Gateway |
-
-## Architecture
+## 📐 Architecture Diagram
 
 ```
-┌─────────────┐
-│   Frontend  │ (React - Port 3000)
-│  (React App)│
-└──────┬──────┘
-       │
-       ▼
-┌──────────────────┐
-│  API Gateway     │ (Port 8081)
-└──────┬───────┬───┘
-       │       │
-       ▼       ▼
-   ┌────────┐ ┌───────────┐
-   │  Auth  │ │ Product   │
-   │Service │ │ Service   │
-   └────┬───┘ └─────┬─────┘
-        │           │
-        └─────┬─────┘
-              ▼
-         ┌─────────┐
-         │ MongoDB │
-         └─────────┘
+                       ┌─────────────────────────┐
+                       │      React Frontend     │ (Port 3000)
+                       └────────────┬────────────┘
+                                    │
+                                    ▼
+                       ┌─────────────────────────┐
+                       │       API Gateway       │ (Port 8081)
+                       └────────────┬────────────┘
+                                    │
+      ┌──────────────────────┬──────┴───────┬──────────────────────┐
+      ▼                      ▼              ▼                      ▼
+┌───────────┐          ┌───────────┐  ┌───────────┐          ┌───────────┐
+│   Auth    │          │  Product  │  │   Order   │          │ Supplier  │
+│  Service  │          │  Service  │  │  Service  │          │  Service  │
+└─────┬─────┘          └─────┬─────┘  └─────┬─────┘          └─────┬─────┘
+      │                      │              │                      │
+      └──────────────┬───────┴──────────────┼─────────┬────────────┘
+                     │                      │         │
+                     ▼                      ▼         ▼
+               ┌───────────┐          ┌───────────┐ ┌───────────┐
+               │  MongoDB  │          │   Redis   │ │ RabbitMQ  │
+               └───────────┘          └───────────┘ └─────┬─────┘
+                                                          │ (Event Bus)
+                                                          ▼
+                                                    ┌───────────┐
+                                                    │Notification│
+                                                    │  Service  │
+                                                    └───────────┘
 ```
 
-## Services
+---
 
-- Auth Service: register, login
-- Product Service: CRUD products
-- API Gateway: routes requests to services
-- Frontend: React app with login, register, and product dashboard
+## 📂 Project Structure
 
-## Run with Docker Compose
+```
+Smart-Inventory-Team-Monitoring/
+├── api-gateway/            # Central entry point and routing proxy
+├── auth-service/           # User authentication and token validation
+├── product-service/        # Product catalogue and inventory database ops
+├── order-service/          # Customer orders database management
+├── supplier-service/       # Supplier contact and details registry
+├── notification-service/   # Asynchronous email/alert dispatcher
+├── frontend/               # React client web application
+├── db/                     # DB initialization scripts
+├── Terraform/              # Infrastructure code for AWS (EKS, VPC, SG)
+├── k8s/                    # Kubernetes manifests and custom dashboard rules
+├── helm/                   # Helm charts configuration (Prometheus & Grafana)
+├── Jenkinsfile             # Declarative pipeline for CI/CD automation
+├── docker-compose.yml      # Local dev multi-container execution
+└── docker-compose.test.yml # Test suite composition
+```
+
+---
+
+## ⚡ Getting Started
+
+### Local Development (Docker Compose)
+To launch all services, databases, and message brokers locally:
 
 ```bash
-docker compose up --build
+# Clone the repository and navigate to root
+git clone <repository-url>
+cd Smart-Inventory-Team-Monitoring
+
+# Start all containers in the background
+docker compose up --build -d
 ```
+Access the application:
+*   **Frontend UI:** `http://localhost:3000`
+*   **API Gateway:** `http://localhost:8081`
 
-Then open:
-- Frontend: http://localhost:3000
-- API Gateway: http://localhost:8081
-
-## Run Tests (Docker)
-
+To run integration tests:
 ```bash
 docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
 ```
 
-## API Endpoints
+---
 
-- Auth Service (via gateway):
-  - POST /auth/register
-  - POST /auth/login
-- Product Service (via gateway):
-  - GET /products
-  - POST /products
-  - PUT /products/:id
-  - DELETE /products/:id
+## ☁️ Production Deployment
 
-## Environment Variables
-
-Docker Compose reads values from `.env` in the project root.
-
-- MONGO_URI (used for local, non-Docker runs)
-- ADMIN_NAME
-- ADMIN_EMAIL
-- ADMIN_PASSWORD
-
-## Notes
-
-This demo stores passwords in plain text for simplicity. Do not use this approach in production.
-
-## Default Account
-
-When `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` are set, the auth service creates a default account on startup if it doesn't already exist.
-
-## Prerequisites
-
-- Docker & Docker Compose installed
-- Node.js 16+ (for local development)
-- MongoDB (if running without Docker)
-
-## Installation & Setup
-
-### Using Docker Compose (Recommended)
-
+### 1. Infrastructure Provisioning (Terraform)
+Navigate to the `Terraform` folder to provision the VPC and EKS cluster on AWS:
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd DEPI
-
-# Configure environment variables
-cp .env.example .env
-# Edit .env with your settings
-
-# Start all services
-docker compose up --build
+cd Terraform
+terraform init
+terraform apply -auto-approve
 ```
 
-### Local Development
-
+### 2. Kubernetes & Monitoring Deployment (Helm)
+Apply K8s manifests and set up Prometheus + Grafana stack for EKS cluster monitoring:
 ```bash
-# Install dependencies for each service
-cd auth-service && npm install
-cd ../product-service && npm install
-cd ../frontend && npm install
+# Apply K8s microservice manifests
+kubectl apply -f k8s/
 
-# Set environment variables
-export MONGO_URI=mongodb://localhost:27017/inventory
-
-# Start MongoDB
-mongod
-
-# Start services in separate terminals
-npm start
+# Install Prometheus Operator & Grafana via Helm
+cd helm/monitoring
+chmod +x install.sh
+./install.sh
 ```
 
-## Project Structure
-
-```
-DEPI/
-├── auth-service/          # Authentication & Authorization
-├── product-service/       # Product Management
-├── api-gateway/          # API Gateway & Routing
-├── frontend/             # React Web Application
-├── db/                   # Database scripts
-├── .github/              # GitHub workflows
-├── docker-compose.yml    # Production compose file
-├── docker-compose.test.yml # Testing compose file
-└── README.md            # Project documentation
-```
-
-## Contributing Guidelines
-
-1. Create a feature branch: `git checkout -b feature/your-feature`
-2. Make your changes and commit: `git commit -m "Add your feature"`
-3. Push to the branch: `git push origin feature/your-feature`
-4. Open a Pull Request with detailed description
-
-## Security Notes
-
-⚠️ **Important**: This is a demo project for educational purposes.
-
-- Passwords are stored in plain text - **DO NOT use in production**
-- API keys and secrets should be managed through secure vaults
-- Implement proper authentication (JWT, OAuth2) for production
-- Use HTTPS in production environments
-- Apply least privilege access control principles
-
-## Troubleshooting
-
-### Port already in use
-```bash
-# Find and kill process using port
-lsof -i :3000  # Frontend
-lsof -i :8081  # API Gateway
-
-kill -9 <PID>
-```
-
-### MongoDB connection issues
-- Ensure MongoDB service is running
-- Check `MONGO_URI` environment variable
-- Verify database credentials
-
-### Docker build failures
-```bash
-# Clean build
-docker compose down
-docker system prune -a
-docker compose up --build
-```
-
-## Notes
+### 3. CI/CD Integration (Jenkins)
+Configure a Jenkins project pointing to this repository. The `Jenkinsfile` will automate:
+1. Building all Docker images.
+2. Running integration tests.
+3. Pushing artifacts to Docker Hub.
+4. Deploying/updating resources in the AWS EKS Cluster.
